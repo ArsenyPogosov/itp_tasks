@@ -68,9 +68,7 @@ void EncodeUtf8(const std::vector<uint32_t>& codepoints, std::string& str) {
     unsigned char res[4*codepoints.size() * 4];
     for (auto&i: codepoints) {
         int tlen = 0;
-        unsigned char tres[4];
-        EncodeOne(i, tres, tlen);
-        memcpy(res + len, tres, tlen);
+        EncodeOne(i, res + len, tlen);
         len += tlen;
     }
 
