@@ -73,7 +73,8 @@ void EncodeUtf8(const std::vector<uint32_t>& codepoints, std::string& str) {
     }
 
     str.resize(len);
-    memcpy(str.data(), res, len);
+    for (int i = 0; i < len; ++i)
+        str.data()[i] = *(char *)(&res[i]);
 }
 
 void DecodeUtf8(const std::string& str, std::vector<uint32_t>& codepoints) {
