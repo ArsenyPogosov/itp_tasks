@@ -65,14 +65,15 @@ size_t CountUtf8Symbols(const std::string& str) {
 
 void EncodeUtf8(const std::vector<uint32_t>& codepoints, std::string& str) {
     int len = 0;
-    unsigned char res[4*codepoints.size() * 4];
+    unsigned char res[codepoints.size() * 4];
     for (auto&i: codepoints) {
         int tlen = 0;
         EncodeOne(i, res + len, tlen);
         len += tlen;
     }
 
-    str = *((std::string *)(res));
+    str.resize(len);
+    memcpy(str.data(), res, len);
 }
 
 void DecodeUtf8(const std::string& str, std::vector<uint32_t>& codepoints) {
