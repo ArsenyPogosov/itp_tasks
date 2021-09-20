@@ -3,9 +3,10 @@
 
 struct TaskProfile {
     bool is_checked;
+    int last_check_time;
     int merge_request_count;
-    TaskProfile(bool is_checked = false, int merge_request_count = 0)
-        : is_checked(is_checked), merge_request_count(merge_request_count) {
+    TaskProfile(bool is_checked = false, int last_check_time = -1, int merge_request_count = 0)
+        : is_checked(is_checked), last_check_time(last_check_time), merge_request_count(merge_request_count) {
     }
 };
 
@@ -18,10 +19,16 @@ ScoreTable GetScoredStudents(const Events& events, time_t score_time) {
     for (auto& i : events) {
         if (i.time <= score_time) {
             if (i.event_type == EventType::CheckFailed) {
-                counter[i.student_name][i.task_name].is_checked = false;
+                if (counter[i.student_name][i.task_name].last_check_time < i.time) {
+                    counter[i.student_name][i.task_name].is_checked = false;
+                    counter[i.student_name][i.task_name].last_check_time = i.time;
+                }
             }
             if (i.event_type == EventType::CheckSuccess) {
-                counter[i.student_name][i.task_name].is_checked = true;
+                if (counter[i.student_name][i.task_name].last_check_time < i.time) {
+                    counter[i.student_name][i.task_name].is_checked = true;
+                    counter[i.student_name][i.task_name].last_check_time = i.time;
+                }
             }
             if (i.event_type == EventType::MergeRequestClosed) {
                 --counter[i.student_name][i.task_name].merge_request_count;
