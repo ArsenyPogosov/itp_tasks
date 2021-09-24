@@ -41,9 +41,8 @@ std::vector<std::string_view> Search(std::string_view text, std::string_view que
     std::vector<std::unordered_map<std::string_view, int, StringViewHashCaseIndep, StringViewCompCaseIndep>>
         text_parsed;
     std::vector<int> text_block_size;
-    for (size_t line_begin = 0; line_begin < text.size();) {
-        ++line_begin;
-        size_t line_end = text.find('\n', line_begin);
+    for (size_t line_begin = 0; line_begin < text.size(); ++line_begin) {
+        size_t line_end = std::min(text.size(), text.find('\n', line_begin));
         std::string_view line = text.substr(line_begin, line_end - line_begin);
         line_begin = line_end;
 
@@ -72,11 +71,14 @@ std::vector<std::string_view> Search(std::string_view text, std::string_view que
     int n = text_parsed.size();
     std::vector<double> score(n);
     for (auto& word : query_parsed) {
-        double idf = 0;
+        int count = 0;
         for (auto& i : text_parsed) {
-            idf += (i[word] > 0);
+            count += (i[word] > 0);
         }
-        idf = log(n / idf);
+        if (count == 0)
+            continue;
+        double idf = log(n / count);
+        
         for (size_t i = 0; i < static_cast<size_t>(n); ++i) {
             score[i] += static_cast<double>(text_parsed[i][word]) / text_block_size[i] * idf;
         }
