@@ -2,43 +2,20 @@
 #include <unordered_map>
 #include "admission.h"
 
-std::pair<int, std::pair<int, int>> GetComparableDate(const Date& date) {
-    return {date.year, {date.month, date.day}};
-}
-
-bool PriorityComp(const Applicant* a, const Applicant* b) {
-    if (a->points != b->points) {
-        return (a->points > b->points);
-    }
-    auto a_date = GetComparableDate(a->student.birth_date), b_date = GetComparableDate(b->student.birth_date);
-    if (a_date != b_date) {
-        return (a_date < b_date);
-    }
-    if (a->student.name < b->student.name) {
-        return (a->student.name < b->student.name);
-    }
-
-    return false;
-}
-
-bool AlphabetComp(const Student* a, const Student* b) {
-    if (a->name != b->name) {
-        return (a->name < b->name);
-    }
-    auto a_date = GetComparableDate(a->birth_date), b_date = GetComparableDate(b->birth_date);
-    if (a_date != b_date) {
-        return (a_date < b_date);
-    }
-
-    return false;
-}
-
 AdmissionTable FillUniversities(const std::vector<University>& universities, const std::vector<Applicant>& applicants) {
     std::vector<const Applicant*> ord;
     for (auto& i : applicants) {
         ord.push_back(&i);
     }
-    std::sort(ord.begin(), ord.end(), PriorityComp);
+
+    std::sort(ord.begin(), ord.end(), [](const Applicant* left, const Applicant* right) {
+        auto make_comparable = [](const Applicant* a) {
+            int reversed_points = -a->points;  // To sort by points in decreasing order
+            return std::tie(reversed_points, a->student.birth_date.year, a->student.birth_date.month,
+                            a->student.birth_date.day, a->student.name);
+        };
+        return make_comparable(left) < make_comparable(right);
+    });
 
     std::unordered_map<std::string, const University*> university_from_name;
     for (auto& i : universities) {
@@ -60,7 +37,12 @@ AdmissionTable FillUniversities(const std::vector<University>& universities, con
     }
 
     for (auto& i : res) {
-        std::sort(i.second.begin(), i.second.end(), AlphabetComp);
+        std::sort(i.second.begin(), i.second.end(), [](const Student* left, const Student* right) {
+            auto make_comparable = [](const Student* s) {
+                return std::tie(s->name, s->birth_date.year, s->birth_date.month, s->birth_date.day);
+            };
+            return make_comparable(left) < make_comparable(right);
+        });
     }
 
     return res;
