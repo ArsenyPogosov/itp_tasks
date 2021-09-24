@@ -36,10 +36,8 @@ void Normalize(std::vector<Block>& absolute_path) {
         } else if (i == ".") {
             continue;
         } else if (i == "..") {
-            res.pop_back();
-            if (res.empty()) {
-                absolute_path = res;
-                return;
+            if (res.size() > 1) {
+                res.pop_back();
             }
         } else {
             res.push_back(i);
@@ -50,9 +48,11 @@ void Normalize(std::vector<Block>& absolute_path) {
 }
 
 std::string NormalizePath(std::string_view current_working_dir, std::string_view path) {
-    std::vector<Block> absolute_path = Parse(current_working_dir), relative_path = Parse(path);
-    absolute_path.insert(absolute_path.end(), relative_path.begin(), relative_path.end());
-    Normalize(absolute_path);
+    std::vector<Block> working_path = Parse(current_working_dir), required_path = Parse(path);
+    if (required_path.empty() || required_path[0] != "") {
+        required_path.insert(required_path.begin(), working_path.begin(), working_path.end());
+    }
+    Normalize(required_path);
 
-    return Compose(absolute_path);
+    return Compose(required_path);
 }
