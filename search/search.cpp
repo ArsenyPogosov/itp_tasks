@@ -75,8 +75,9 @@ std::vector<std::string_view> Search(std::string_view text, std::string_view que
         for (auto& i : text_parsed) {
             count += (i[word] > 0);
         }
-        if (count == 0)
+        if (count == 0) {
             continue;
+        }
         double idf = log(n / count);
         for (size_t i = 0; i < static_cast<size_t>(n); ++i) {
             score[i] += static_cast<double>(text_parsed[i][word]) / text_block_size[i] * idf;
