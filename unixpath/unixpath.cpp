@@ -2,10 +2,10 @@
 #include <algorithm>
 #include "unixpath.h"
 
-using block = std::string_view;
+using Block = std::string_view;
 
-std::vector<block> Parse(std::string_view path) {
-    std::vector<block> res;
+std::vector<Block> Parse(std::string_view path) {
+    std::vector<Block> res;
     for (auto block_begin = path.begin(); block_begin < path.end(); ++block_begin) {
         auto block_end = std::find(block_begin, path.end(), '/');
         res.push_back(path.substr(block_begin - path.begin(), block_end - block_begin));
@@ -15,19 +15,20 @@ std::vector<block> Parse(std::string_view path) {
     return res;
 }
 
-std::string Compose(const std::vector<block>& path) {
-    std::string res = "";
+std::string Compose(const std::vector<Block>& path) {
+    std::string res;
     for (auto& i : path) {
         res += static_cast<std::string>(i) + '/';
     }
-    if (path.size() > 1)
+    if (path.size() > 1) {
         res.pop_back();
+    }
 
     return res;
 }
 
-void Normalize(std::vector<block>& absolute_path) {
-    std::vector<block> res;
+void Normalize(std::vector<Block>& absolute_path) {
+    std::vector<Block> res;
     res.push_back("");
     for (auto& i : absolute_path) {
         if (i == "") {
@@ -49,7 +50,7 @@ void Normalize(std::vector<block>& absolute_path) {
 }
 
 std::string NormalizePath(std::string_view current_working_dir, std::string_view path) {
-    std::vector<block> absolute_path = Parse(current_working_dir), relative_path = Parse(path);
+    std::vector<Block> absolute_path = Parse(current_working_dir), relative_path = Parse(path);
     absolute_path.insert(absolute_path.end(), relative_path.begin(), relative_path.end());
     Normalize(absolute_path);
 
