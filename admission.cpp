@@ -10,7 +10,7 @@ AdmissionTable FillUniversities(const std::vector<University>& universities, con
 
     std::sort(applicants_ordered_by_priority.begin(), applicants_ordered_by_priority.end(),
               [](const Applicant* const left_compared, const Applicant* const right_compared) {
-                  auto make_comparable = [](const Applicant* const applicant_to_convert) {
+                  const auto make_comparable = [](const Applicant* const applicant_to_convert) {
                       int reversed_points = -applicant_to_convert->points;  // To sort by points in decreasing order
                       return std::tie(reversed_points, applicant_to_convert->student.birth_date.year,
                                       applicant_to_convert->student.birth_date.month,
@@ -42,7 +42,7 @@ AdmissionTable FillUniversities(const std::vector<University>& universities, con
     for (auto& [university_name, university_students] : resulting_admission_table) {
         std::sort(university_students.begin(), university_students.end(),
                   [](const Student* const left_compared, const Student* const right_compared) {
-                      auto make_comparable = [](const Student* const student_to_convert_pointer) {
+                      const auto make_comparable = [](const Student* const student_to_convert_pointer) {
                           return std::tie(student_to_convert_pointer->name, student_to_convert_pointer->birth_date.year,
                                           student_to_convert_pointer->birth_date.month,
                                           student_to_convert_pointer->birth_date.day);
