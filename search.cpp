@@ -10,14 +10,14 @@
 
 struct StringViewHashCaseIndependent {
 private:
-    const uint_fast64_t _p = 31;
-    const uint_fast64_t _m = 1e9 + 7;
+    const uint_fast64_t p_ = 31;
+    const uint_fast64_t m_ = 1e9 + 7;
 
 public:
     size_t operator()(const std::string_view& str) const {
         uint_fast64_t result = 0;
         for (char i : str) {
-            result = (result * _p + tolower(i) - 'a' + 1) % _m;
+            result = (result * p_ + tolower(i) - 'a' + 1) % m_;
         }
 
         return static_cast<size_t>(result);
