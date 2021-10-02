@@ -13,25 +13,12 @@ private:
         const uint_fast64_t m_ = 1e9 + 7;
 
     public:
-        size_t operator()(const std::string_view& str) const {
-            uint_fast64_t result = 0;
-            for (char i : str) {
-                result = (result * p_ + tolower(i) - 'a' + 1) % m_;
-            }
-
-            return static_cast<size_t>(result);
-        }
+        size_t operator()(const std::string_view& str) const;
     };
 
     class StringViewCompCaseIndependent {
     public:
-        bool operator()(std::string_view str1, std::string_view str2) const {
-            if (str1.length() != str2.length()) {
-                return false;
-            }
-            return std::equal(str1.begin(), str1.end(), str2.begin(),
-                              [](auto a, auto b) { return std::tolower(a) == std::tolower(b); });
-        }
+        bool operator()(std::string_view str1, std::string_view str2) const;
     };
 
     class ParsedDocument {

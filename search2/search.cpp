@@ -1,9 +1,24 @@
 #include "search.h"
 
-#include <cctype>
 #include <functional>
 #include <cmath>
 #include <numeric>
+
+size_t SearchEngine::StringViewHashCaseIndependent::operator()(const std::string_view& str) const {
+    uint_fast64_t result = 0;
+    for (char i : str) {
+        result = (result * p_ + std::tolower(i) - 'a' + 1) % m_;
+    }
+
+    return static_cast<size_t>(result);
+}
+bool SearchEngine::StringViewCompCaseIndependent::operator()(std::string_view str1, std::string_view str2) const {
+    if (str1.length() != str2.length()) {
+        return false;
+    }
+    return std::equal(str1.begin(), str1.end(), str2.begin(),
+                      [](auto a, auto b) { return std::tolower(a) == std::tolower(b); });
+}
 
 std::string_view ReadBlock(std::string_view& text, std::function<bool(char)> is_block_part) {
     while (!text.empty() && !is_block_part(text.front())) {
