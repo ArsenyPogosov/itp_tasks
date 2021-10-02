@@ -2,10 +2,6 @@
 
 #include <algorithm>
 
-UnixPath::ParsedPath::ParsedPath() {
-    content_ = {""};
-}
-
 UnixPath::ParsedPath::ParsedPath(std::string_view path) {
     ParseFrom(path);
 }
