@@ -12,14 +12,13 @@ private:
 
         std::vector<Block> content_;
 
-        ParsedPath() : content_(0){};
+        ParsedPath(){};
         explicit ParsedPath(std::string_view path);
 
         void ParseFrom(std::string_view path);
         std::string Compose() const;
 
         static ParsedPath FromBlock(const Block& block);
-        static ParsedPath RootPath();
 
         void operator+=(const ParsedPath& second_part);
 
@@ -30,7 +29,7 @@ private:
     ParsedPath current_path_;
 
 public:
-    UnixPath(std::string_view initial_dir) : base_path_(initial_dir){};
+    UnixPath(std::string_view initial_dir) : base_path_(initial_dir), current_path_(base_path_){};
 
     void ChangeDirectory(std::string_view path);
 
