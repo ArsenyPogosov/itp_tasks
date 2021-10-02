@@ -17,7 +17,7 @@ void UnixPath::ParsedPath::ParseFrom(std::string_view path) {
 std::string UnixPath::ParsedPath::Compose() const {
     std::string result;
     for (auto& block : content_) {
-        result += static_cast<std::string>(block) + '/';
+        result += block + '/';
     }
     if (content_.size() > 1) {
         result.pop_back();
