@@ -27,7 +27,7 @@ std::string UnixPath::ParsedPath::Compose() const {
 }
 
 UnixPath::ParsedPath UnixPath::ParsedPath::FromBlock(const Block& block) {
-    UnixPath::ParsedPath::ParsedPath result;
+    UnixPath::ParsedPath result;
     result.content_ = {block};
 
     return result;
