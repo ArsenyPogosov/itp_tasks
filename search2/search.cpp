@@ -1,5 +1,6 @@
 #include "search.h"
 
+#include <cctype>
 #include <functional>
 #include <cmath>
 #include <numeric>
