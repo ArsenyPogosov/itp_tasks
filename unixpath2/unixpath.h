@@ -12,7 +12,7 @@ private:
 
         std::vector<Block> content_;
 
-        ParsedPath(){};
+        ParsedPath() : content_(0){};
         explicit ParsedPath(std::string_view path);
 
         void ParseFrom(std::string_view path);
