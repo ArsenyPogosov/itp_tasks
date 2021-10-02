@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-UnixPath::ParsedPath::ParsedPath(std::string_view path) {
+UnixPath::ParsedPath::ParsedPath(std::string_view path) : content_(0) {
     ParseFrom(path);
 }
 
