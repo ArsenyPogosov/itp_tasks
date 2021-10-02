@@ -18,8 +18,8 @@ private:
         void ParseFrom(std::string_view path);
         std::string Compose() const;
 
-        friend ParsedPath FromBlock(const Block& block);
-        friend ParsedPath RootPath();
+        static ParsedPath FromBlock(const Block& block);
+        static ParsedPath RootPath();
 
         void operator+=(const ParsedPath& second_part);
 

@@ -26,15 +26,15 @@ std::string UnixPath::ParsedPath::Compose() const {
     return result;
 }
 
-UnixPath::ParsedPath FromBlock(const UnixPath::ParsedPath::Block& block) {
+UnixPath::ParsedPath UnixPath::ParsedPath::FromBlock(const Block& block) {
     UnixPath::ParsedPath::ParsedPath result;
     result.content_ = {block};
 
     return result;
 }
 
-UnixPath::ParsedPath RootPath() {
-    return UnixPath::ParsedPath::FromBlock("");
+UnixPath::ParsedPath UnixPath::ParsedPath::RootPath() {
+    return FromBlock("");
 }
 
 void UnixPath::ParsedPath::operator+=(const ParsedPath& second_part) {
@@ -71,7 +71,7 @@ std::string UnixPath::GetAbsolutePath() const {
 }
 
 std::string UnixPath::GetRelativePath() const {
-    ParsedPath parsed_relative_path = RootPath();
+    ParsedPath parsed_relative_path = UnixPath::ParsedPath::RootPath();
     size_t n = base_path_.content_.size();
     size_t m = current_path_.content_.size();
 
@@ -83,11 +83,11 @@ std::string UnixPath::GetRelativePath() const {
     }
     while (i1 < n || i2 < m) {
         if (i2 >= m) {
-            parsed_relative_path += FromBlock("..");
+            parsed_relative_path += UnixPath::ParsedPath::FromBlock("..");
             continue;
         }
         if (i1 >= n) {
-            parsed_relative_path += FromBlock(current_path_.content_[i2++]);
+            parsed_relative_path += UnixPath::ParsedPath::FromBlock(current_path_.content_[i2++]);
             continue;
         }
     }
