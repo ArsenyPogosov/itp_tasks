@@ -2,7 +2,8 @@
 
 #include <algorithm>
 
-Poly::Poly() { }
+Poly::Poly() {
+}
 
 Poly::Poly(std::vector<int64_t> coefficients) {
     for (size_t i = 0; i < coefficients.size(); ++i) {
@@ -34,7 +35,7 @@ int64_t Poly::operator()(int64_t x) const {
         return result;
     };
 
-    for (const auto& [i, ai] : coefficients_){
+    for (const auto& [i, ai] : coefficients_) {
         result += ai * quick_power(x, i);
     }
 
@@ -56,7 +57,7 @@ Poly Poly::operator+() const {
 Poly Poly::operator-() const {
     Poly result;
     result.coefficients_ = coefficients_;
-    for (auto&[i, ai] : result.coefficients_) {
+    for (auto& [i, ai] : result.coefficients_) {
         ai = -ai;
     }
     return result;
