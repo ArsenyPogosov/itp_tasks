@@ -7,7 +7,20 @@ struct Point {
     size_t x = 0;
     size_t y = 0;
 
-    Point(size_t x, size_t y) : x(x), y(y) {
+    Point(size_t x = 0, size_t y = 0) : x(x), y(y) {
+    }
+    Point(const Point& from) = default;
+    Point(Point&& from) = default;
+
+    Point& operator=(const Point& from) {
+        x = from.x;
+        y = from.y;
+        return *this;
+    }
+    Point& operator=(Point&& from) {
+        x = from.x;
+        y = from.y;
+        return *this;
     }
 
     bool operator==(const Point& second) const {
