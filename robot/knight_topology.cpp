@@ -8,7 +8,7 @@ std::vector<Point> KnightTopology::Lookup() const {
         if (nx < 0 || ny < 0) {
             continue;
         }
-        Point neighbour(static_cast<size_t>(nx), static_cast<size_t>(ny));
+        Point neighbour({static_cast<size_t>(nx), static_cast<size_t>(ny)});
 
         if (IsFree(neighbour)) {
             neighbours.push_back(neighbour);

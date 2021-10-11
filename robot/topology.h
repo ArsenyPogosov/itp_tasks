@@ -8,6 +8,7 @@
 class Topology : public Field {
 public:
     Topology(std::vector<std::vector<bool>> data, const Point& start = {0, 0}) : Field(data), current_(start){};
+    virtual ~Topology() = default;
 
     virtual std::vector<Point> Lookup() const = 0;
     virtual size_t MeasureDistance(const Point& from, const Point& to) const = 0;
