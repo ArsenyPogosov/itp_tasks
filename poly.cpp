@@ -24,9 +24,12 @@ Poly::Poly(std::vector<std::pair<int64_t, int64_t>> coefficients) {
 int64_t Poly::operator()(int64_t x) const {
     int64_t result = 0;
 
-    const auto quick_power = [](int64_t x, int64_t k) {
+    const auto quick_power = [](int64_t x, int64_t k) -> int64_t {
         int64_t result = 1;
-        for (int64_t i = 0, pi = x; (1 << i) <= k; ++i, pi *= pi) {
+        for (int64_t i = 0, pi = x; (1 << i) <= k; ++i) {
+            if (i != 0) {
+                pi *= pi;
+            }
             if ((k >> i) & 1) {
                 result *= pi;
             }
