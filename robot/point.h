@@ -6,7 +6,7 @@
 struct Point {
     size_t x = 0;
     size_t y = 0;
-    
+
     bool operator==(const Point& second) const {
         return x == second.x && y == second.y;
     }
