@@ -31,7 +31,7 @@ public:
 
     Poly operator*(const Poly& second) const;
 
-    Poly& operator*=(const Poly& second) const;
+    Poly& operator*=(const Poly& second);
 
     friend std::ostream& operator<<(std::ostream& out, const Poly& poly);
 

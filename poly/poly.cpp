@@ -8,13 +8,17 @@ Poly::Poly() {
 
 Poly::Poly(std::vector<int64_t> coefficients) {
     for (size_t i = 0; i < coefficients.size(); ++i) {
-        coefficients_[i] = coefficients[i];
+        if (coefficients[i]) {
+            coefficients_[i] = coefficients[i];
+        }
     }
 }
 
 Poly::Poly(std::vector<std::pair<int64_t, int64_t>> coefficients) {
     for (const auto& [i, ai]: coefficients) {
-        coefficients_[i] = ai;
+        if (ai) {
+            coefficients_[i] = ai;
+        }
     }
 }
 
@@ -99,7 +103,7 @@ Poly& Poly::operator+=(const Poly& second) {
 
 Poly& Poly::operator-=(const Poly& second) {
     for (const auto& [i, ai]: second.coefficients_) {
-        coefficients_[i] += ai;
+        coefficients_[i] -= ai;
         if (!coefficients_[i]) {
             coefficients_.erase(i);
         }
@@ -123,11 +127,13 @@ Poly Poly::operator*(const Poly& second) const {
     return result;
 }
 
-Poly& Poly::operator*=(const Poly& second) const {
-    *this = (*this) * second;
+Poly& Poly::operator*=(const Poly& second) {
+    return *this = (*this) * second;
 }
 
 std::ostream& operator<<(std::ostream& out, const Poly& poly){
+    out << "y = ";
+
     if (poly.coefficients_.empty()) {
         return out << "0";
     }
@@ -139,10 +145,16 @@ std::ostream& operator<<(std::ostream& out, const Poly& poly){
     std::sort(sorted_coefficients.begin(), sorted_coefficients.end(), std::greater<std::pair<int64_t, int64_t>>());
 
     for (const auto& [i, ai]: sorted_coefficients) {
-        if (ai > 0) {
-            out << " + ";
+        if (i != sorted_coefficients.front().first) {
+            if (ai > 0) {
+                out << " + ";
+            } else {
+                out << " - ";
+            }
         } else {
-            out << " - ";
+            if (ai < 0) {
+                out << '-';
+            }
         }
 
         if (std::abs(ai) != 1 || i == 0) {
