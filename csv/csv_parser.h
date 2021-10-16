@@ -51,9 +51,9 @@ public:
 
                 values.back() += current[i];
             }
-            if (quotes_opened) {
-                throw CsvParserError();
-            }
+            /* if (quotes_opened) {
+                 throw CsvParserError();
+            }*/
 
             std::tuple<T...> result;
             try {
