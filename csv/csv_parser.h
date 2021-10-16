@@ -51,13 +51,8 @@ public:
 
                 values.back() += current[i];
             }
-            if (quotes_opened) {
-                throw CsvParserError();
-            }
 
-            if (values.size() > sizeof...(T)) {
-                values.resize(sizeof...(T));
-            }
+            values.resize(sizeof...(T));
 
             std::tuple<T...> result;
             try {
