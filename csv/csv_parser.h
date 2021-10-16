@@ -148,6 +148,7 @@ private:
         }
 
         R result;
+        std::from_chars(from.data(), from.data() + from.size(), result);
         /*if (std::from_chars(from.data(), from.data() + from.size(), result).ptr != from.data() + from.size()) {
             throw CsvParserError();
         }*/
