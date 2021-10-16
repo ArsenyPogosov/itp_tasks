@@ -105,7 +105,7 @@ public:
         friend CsvParser;
     };
 
-    CsvParser(std::istream& in, char separator, int skip) : in_(in), separator_(separator) {
+    CsvParser(std::istream& in, char separator, int skip = 0) : in_(in), separator_(separator) {
         if (skip < 0) {
             throw CsvParserError();
         }
