@@ -42,7 +42,7 @@ public:
                         --count;
                         quotes_opened = true;
                     }
-                    
+
                     for (size_t j = 0; j < count / 2; ++j) {
                         values.back() += '"';
                     }
@@ -148,9 +148,9 @@ private:
         }
 
         R result;
-        if (std::from_chars(from.data(), from.data() + from.size(), result).ptr != from.data() + from.size()) {
+        /*if (std::from_chars(from.data(), from.data() + from.size(), result).ptr != from.data() + from.size()) {
             throw CsvParserError();
-        }
+        }*/
         return result;
     }
 };
