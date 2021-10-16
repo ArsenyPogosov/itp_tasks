@@ -38,6 +38,11 @@ public:
                     }
                     --i;
 
+                    if (!quotes_opened) {
+                        --count;
+                        quotes_opened = true;
+                    }
+                    
                     for (size_t j = 0; j < count / 2; ++j) {
                         values.back() += '"';
                     }
