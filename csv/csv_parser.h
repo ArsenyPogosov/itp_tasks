@@ -118,7 +118,7 @@ public:
 
     Iterator begin() {
         if (in_.peek() == std::istream::traits_type::eof()) {
-            Iterator(nullptr);
+            return Iterator(nullptr);
         }
 
         return Iterator(this);
