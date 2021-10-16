@@ -4,7 +4,7 @@
 #include <string>
 #include <charconv>
 #include <exception>
-#include <deque>
+#include <vector>
 
 class CsvParserError : public std::exception {};
 class CsvParserIteratorError : public std::exception {};
@@ -53,6 +53,10 @@ public:
             }
             if (quotes_opened) {
                 throw CsvParserError();
+            }
+
+            if (values.size() > sizeof...(T)) {
+                values.resize(sizeof...(T));
             }
 
             std::tuple<T...> result;
