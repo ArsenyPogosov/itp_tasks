@@ -61,9 +61,9 @@ public:
 
             std::tuple<T...> result;
             try {
-                size_t i = sizeof...(T);
-                const auto decrement = [](size_t& i) { return --i; };
-                result = std::make_tuple((Convert<T>(values[decrement(i)]))...);
+                size_t i = 0;
+                const auto encrement = [](size_t& i) { return i++; };
+                result = std::make_tuple((Convert<T>(values[encrement(i)]))...);
             } catch (...) {
                 throw CsvParserError();
             }
@@ -148,10 +148,9 @@ private:
         }
 
         R result;
-        std::from_chars(from.data(), from.data() + from.size(), result);
-        /*if (std::from_chars(from.data(), from.data() + from.size(), result).ptr != from.data() + from.size()) {
+        if (std::from_chars(from.data(), from.data() + from.size(), result).ptr != from.data() + from.size()) {
             throw CsvParserError();
-        }*/
+        }
         return result;
     }
 };
